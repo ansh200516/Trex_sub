@@ -300,7 +300,7 @@ class HangmanAPI(object):
                 if pattern_letter:
                     logging.info(f"Dictionary Pattern Top Guess: '{pattern_letter}' (Prob: {pattern_prob:.4f})")
 
-            if pattern_letter is not None:
+            if pattern_letter and pattern_prob > 0.6:
                 logging.info(f"DECISION: Dictionary Pattern is highly confident. Trusting it: '{pattern_letter}'")
                 return pattern_letter
             if ml_prob > 0.6:
@@ -532,7 +532,7 @@ def train(api):
     del test_df
 
     model = api.MixtureOfExperts()
-    model.iterations = 2000 # Set desired iterations here
+    model.iterations = 2000 
     logging.info("--- Starting Incremental Training ---")
 
     for i in train_groups:
